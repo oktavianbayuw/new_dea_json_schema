@@ -87,7 +87,7 @@
                 class="btn btn-success mt-3"
                 onclick="validateForm()"
               >
-                Submit
+                Validate
               </button>
             </form>
           </div>
@@ -175,6 +175,36 @@
           null,
           2
         )}</pre>`;
+      }
+
+      const validateResultDiv = document.getElementById("validateResult");
+      function displayValidationResult(validationResult) {
+        const firstResult = validationResult[0];
+
+        const isValid = firstResult.isValid;
+        if (isValid == true) {
+          validateResultDiv.innerHTML = `<pre style="color: white;">Data Is Valid</pre>`;
+          validateResultDiv.style.backgroundColor = "green";
+          validateResultDiv.style.padding = "10px";
+        } else {
+          validateResultDiv.innerHTML = `<pre style="color: white;">Data Is Not Valid</pre>`;
+          validateResultDiv.style.backgroundColor = "red";
+          validateResultDiv.style.padding = "10px";
+        }
+      }
+
+      async function validateForm() {
+        const jsonString = document.getElementById("jsonStringInput").value;
+        const response = await fetch(`/api/validate`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ jsonString }),
+        });
+
+        const validationResult = await response.json();
+        displayValidationResult(validationResult);
       }
     </script>
   </body>

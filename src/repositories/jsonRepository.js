@@ -11,6 +11,13 @@ class JsonRepository {
   getAllJsonSchemas() {
     return this.jsonSchemas;
   }
+
+  getJsonSchemaByUrlPath(urlPath) {
+    const jsonSchema = this.jsonSchemas.find(
+      (schema) => schema.urlPath === urlPath
+    );
+    return jsonSchema || null;
+  }
 }
 
 module.exports = JsonRepository;

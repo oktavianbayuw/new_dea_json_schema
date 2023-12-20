@@ -1,10 +1,11 @@
 // jsonController.js
-
 const JsonRepository = require("../repositories/jsonRepository");
+const Ajv = require("ajv"); // Import library validasi Ajv
 
 class JsonController {
   constructor() {
     this.jsonRepository = new JsonRepository();
+    this.ajv = new Ajv(); // Inisialisasi Ajv
   }
 
   convertToJsonSchema(jsonData) {
@@ -53,8 +54,25 @@ class JsonController {
         }
       }
     }
-
     return properties;
+  }
+
+  validateJson(jsonData) {
+    try {
+      // Dapatkan JSON Schema yang tersimpan
+      const jsonSchemas = this.jsonRepository.getAllJsonSchemas();
+
+      // Validasi JSON terhadap semua JSON Schemas yang tersimpan
+      const results = jsonSchemas.map((schema) => {
+        const isValid = this.ajv.validate(schema, JSON.parse(jsonData));
+        return { schema, isValid };
+      });
+
+      return results;
+    } catch (error) {
+      console.error("Error validating JSON:", error.message);
+      throw error;
+    }
   }
 }
 
