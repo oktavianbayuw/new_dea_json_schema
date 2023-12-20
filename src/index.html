@@ -59,7 +59,10 @@
                   placeholder="Masukkan URL Path"
                 />
                 <small class="form-text text-muted"
-                  ><i>* masukkan URL Path, misal : /exampletest</i></small
+                  ><i
+                    >* masukkan nama testing schema, misal : jsonValidate,
+                    jsonCheck</i
+                  ></small
                 >
               </div>
               <div class="form-group">
@@ -78,7 +81,7 @@
                 class="btn btn-primary"
                 onclick="submitForm()"
               >
-                Submit
+                Simpan
               </button>
               <div id="jsonSchemaResult"></div>
               <button
@@ -179,9 +182,8 @@
 
       const validateResultDiv = document.getElementById("validateResult");
       function displayValidationResult(validationResult) {
-        const firstResult = validationResult[0];
-
-        const isValid = firstResult.isValid;
+        const isValid = validationResult.isValid;
+        console.log(isValid);
         if (isValid == true) {
           validateResultDiv.innerHTML = `<pre style="color: white;">Data Is Valid</pre>`;
           validateResultDiv.style.backgroundColor = "green";
@@ -195,12 +197,13 @@
 
       async function validateForm() {
         const jsonString = document.getElementById("jsonStringInput").value;
+        const urlPath = document.getElementById("urlPathInput").value;
         const response = await fetch(`/api/validate`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ jsonString }),
+          body: JSON.stringify({ jsonString, urlPath }),
         });
 
         const validationResult = await response.json();

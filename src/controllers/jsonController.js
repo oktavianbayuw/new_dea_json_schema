@@ -1,19 +1,16 @@
-// jsonController.js
 const JsonRepository = require("../repositories/jsonRepository");
-const Ajv = require("ajv"); // Import library validasi Ajv
+const Ajv = require("ajv");
 
 class JsonController {
   constructor() {
     this.jsonRepository = new JsonRepository();
-    this.ajv = new Ajv(); // Inisialisasi Ajv
+    this.ajv = new Ajv();
   }
 
   convertToJsonSchema(jsonData) {
     try {
-      // Implementasi konversi JSON ke JSON Schema disini
       const jsonSchema = this.generateJsonSchema(JSON.parse(jsonData));
 
-      // Simpan JSON Schema menggunakan metode di JsonRepository
       this.jsonRepository.saveJsonSchema(jsonSchema);
 
       return { jsonSchema };
@@ -23,7 +20,6 @@ class JsonController {
     }
   }
 
-  // Metode untuk menghasilkan JSON Schema dari data JSON
   generateJsonSchema(data) {
     if (typeof data !== "object" || data === null) {
       throw new Error("Invalid JSON data.");
@@ -43,7 +39,6 @@ class JsonController {
         const value = data[key];
         const type = typeof value;
 
-        // Rekursif untuk objek yang bersarang
         if (type === "object" && value !== null) {
           properties[key] = {
             type: "object",
@@ -57,17 +52,35 @@ class JsonController {
     return properties;
   }
 
-  validateJson(jsonData) {
+  async validateJson(jsonData, urlPath) {
     try {
-      // Dapatkan JSON Schema yang tersimpan
       const jsonSchemas = this.jsonRepository.getAllJsonSchemas();
-
-      // Validasi JSON terhadap semua JSON Schemas yang tersimpan
       const results = jsonSchemas.map((schema) => {
         const isValid = this.ajv.validate(schema, JSON.parse(jsonData));
         return { schema, isValid };
       });
 
+      //   console.log(results);
+
+      let status = 0;
+      for (let result of results) {
+        const url = `/${urlPath}`;
+        status = result.isValid ? 1 : 0;
+        const existingJsonSchema = await this.jsonRepository.saveResult(
+          url,
+          JSON.stringify(result.schema),
+          status
+        );
+
+        if (existingJsonSchema) {
+          return {
+            schema: JSON.parse(existingJsonSchema),
+            isValid: result.isValid,
+          };
+        }
+      }
+
+      //   console.log(results);
       return results;
     } catch (error) {
       console.error("Error validating JSON:", error.message);

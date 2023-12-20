@@ -13,8 +13,8 @@ router.post("/convert", (req, res) => {
 
 // Rute untuk melakukan validasi JSON terhadap JSON Schema
 router.post("/validate", (req, res) => {
-  const { jsonString } = req.body;
-  const validationResult = jsonController.validateJson(jsonString);
+  const { jsonString, urlPath } = req.body;
+  const validationResult = jsonController.validateJson(jsonString, urlPath);
   res.json(validationResult);
 });
 
