@@ -81,56 +81,59 @@
 
       <section class="inner-page">
         <div class="row m-5">
-          <div class="col-md-6">
-            <div class="card">
-              <div class="card-body">
-                <form id="jsonForm">
-                  <div class="form-group">
-                    <label for="urlPathInput">URL Path</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="urlPathInput"
-                      placeholder="Masukkan URL Path"
-                    />
-                    <small class="form-text text-muted"
-                      ><i
-                        >* masukkan nama testing schema, misal : jsonValidate,
-                        jsonCheck</i
-                      ></small
-                    >
-                  </div>
-                  <div class="form-group">
-                    <label for="jsonStringInput">JSON</label>
-                    <textarea
-                      class="form-control"
-                      id="jsonStringInput"
-                      cols="30"
-                      rows="10"
-                      placeholder="Masukkan JSON String"
-                    ></textarea>
-                  </div>
-                  <button
-                    id="btn-submit"
-                    type="button"
-                    class="btn btn-primary"
-                    onclick="submitForm()"
+          <!-- <div class="col-md-6"> -->
+          <div class="card">
+            <div class="card-body">
+              <form id="jsonForm">
+                <div class="form-group">
+                  <label for="urlPathInput">URL Path</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="urlPathInput"
+                    placeholder="Masukkan URL Path"
+                  />
+                  <small class="form-text text-muted"
+                    ><i
+                      >* masukkan nama testing schema, misal : jsonValidate,
+                      jsonCheck</i
+                    ></small
                   >
-                    Generate
-                  </button>
-                  <div id="jsonSchemaResult"></div>
-                </form>
-              </div>
+                </div>
+                <div class="form-group">
+                  <label for="jsonStringInput">JSON</label>
+                  <textarea
+                    class="form-control"
+                    id="jsonStringInput"
+                    cols="30"
+                    rows="10"
+                    placeholder="Masukkan JSON String"
+                  ></textarea>
+                </div>
+                <button
+                  id="btn-submit"
+                  type="button"
+                  class="btn btn-primary mt-3"
+                  onclick="submitForm()"
+                >
+                  Generate
+                </button>
+                <a href="../index.html" class="btn btn-danger mt-3">
+                  Kembali
+                </a>
+                <div id="jsonSchemaResult"></div>
+              </form>
             </div>
           </div>
-          <div class="col-md-6">
+          <!-- </div> -->
+          <!-- <div class="col-md-6">
             <div class="card">
               <div class="card-body">
                 <h4 class="text-center">Validate Result</h4>
                 <div id="validateResult"></div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <hr />
       </section>

@@ -5,7 +5,7 @@ const routes = require("./routes");
 const JsonController = require("./controllers/jsonController");
 
 const app = express();
-const port = 3000;
+const port = 3005;
 
 app.use(bodyParser.json());
 const jsonController = new JsonController();
